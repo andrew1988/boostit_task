@@ -14,8 +14,10 @@ class AlterCityTableAddUserIdAndTemperatureMeasuringUnit extends Migration
     public function up()
     {
       Schema::table('cities', function($table) {
-        $table->integer('user_id');
+        $table->integer('user_id')->unsigned();
         $table->string('measuring_unit');
+
+        $table->foreign('user_id')->references('id')->on('users');
       });
     }
 
@@ -26,9 +28,9 @@ class AlterCityTableAddUserIdAndTemperatureMeasuringUnit extends Migration
      */
     public function down()
     {
-      Schema::table('citites', function($table) {
-        $table->dropColumn('paid');
-        $table->string('measuring_unit');
+      Schema::table('cities', function($table) {
+        $table->dropColumn('user_id');
+        $table->dropColumn('measuring_unit');
       });
     }
 }
