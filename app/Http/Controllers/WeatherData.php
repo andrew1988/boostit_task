@@ -16,7 +16,7 @@ class WeatherData extends Controller
         $lnk = "https://query.yahooapis.com/v1/public/yql?q=".urlencode($query)."&format=json";
         $json = file_get_contents($lnk);
         $decodeResponse = json_decode($json);
-
+        $cityResponse[$city->id]['oras'] = $city->city;
         if($city->measuring_unit == 'c'){
             $originalTemp = $decodeResponse->query->results->channel->item->condition->temp;
             $toCelsius = ($originalTemp - 32) * 5/9;
@@ -31,15 +31,14 @@ class WeatherData extends Controller
         if($cityResponse[$city->id]['text'] == 'Rain'){
           $this->weatherNotifications($city->city);
         }
-
       }
-      $finalResponse = json_encode($cityResponse);
       return response()->json($cityResponse);
     }
     public function weatherNotifications($city){
             //write to file
-            $string = 'Warning it\'s raining in:'.$city . "\n";
+            $string = 'Warning it\'s raining in:'.$city ."\n";
             //Storage::disk('local')->put('public/warnings.txt',$string);
             File::append(storage_path('app/public/warnings.txt'),$string);
     }
+
 }

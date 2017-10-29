@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Cities;
+use App\User;
 use Auth;
 
 class HomeController extends Controller
@@ -23,10 +24,10 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $citiesList = Cities::where('user_id',Auth::user()->id)->orderBy('id','desc')->get();
-        return view('home',['citiesList'=>$citiesList]);
+        $citiesList = User::with('cities')->where('id',Auth::user()->id)->first();
+        return view('home',['citiesList'=>$citiesList->cities]);
     }
 
     public function addCity(Request $request){

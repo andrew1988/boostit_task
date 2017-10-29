@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',['as'=>'/', 'uses'=>'HomeController@index']);
 
 Auth::routes();
 
@@ -21,4 +19,3 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('add-city',['as'=>'add-city','uses'=>'HomeController@addCity']);
 Route::post('edit-city',['as'=>'edit-city','uses'=>'HomeController@editCity']);
 Route::get('delete-city/{id}',['as'=>'delete-city','uses'=>'HomeController@deleteCity']);
-//Route::post('/addCity', 'HomeController@addCity')->name('addCity');
