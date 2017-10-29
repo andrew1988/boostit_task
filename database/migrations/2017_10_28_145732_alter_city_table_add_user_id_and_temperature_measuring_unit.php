@@ -29,7 +29,7 @@ class AlterCityTableAddUserIdAndTemperatureMeasuringUnit extends Migration
     public function down()
     {
       Schema::table('cities', function($table) {
-        $table->dropColumn('user_id');
+        $table->dropForeign(['user_id'])
         $table->dropColumn('measuring_unit');
       });
     }
